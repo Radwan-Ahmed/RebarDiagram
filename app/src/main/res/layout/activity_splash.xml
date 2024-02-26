@@ -5,6 +5,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SplashActivity"
-    android:background="@drawable/bsrm">
+    android:background="@color/yellow_gradient">
+
+    <TextView
+        android:id="@+id/textAddImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:fontFamily="@font/pacific"
+        android:gravity="center"
+        android:textSize="35sp"
+        android:text="Stirrup Calculator"
+        android:textColor="@color/black_gradient"
+        android:textStyle="bold" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_marginBottom="70dp"
+        android:textSize="25sp"
+        android:textColor="@color/black_gradient"
+        android:text="Developed By"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_marginBottom="40dp"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="Aranna Srabon"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_marginBottom="5sp"
+        android:textSize="15sp"
+        android:textColor="@color/red"
+        android:text="All Rights Reserved"/>
+
 
 </RelativeLayout>

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/wave"
+    android:background="@color/yellow_gradient"
     tools:context=".MainActivity">
 
 
@@ -44,7 +44,7 @@
                 android:id="@+id/buttonCalculate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/outlined"
+                android:background="@drawable/elevated"
                 android:text="CALCULATE WEIGHT"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"

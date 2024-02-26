@@ -2,6 +2,7 @@ package com.example.rebardia;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,8 @@ public class tenmm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tenmm);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.black_ash)));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         stirrupContainer = findViewById(R.id.stirrupContainer);
         buttonAddStirrup = findViewById(R.id.buttonAddStirrup);
         buttonCalculate = findViewById(R.id.buttonCalculate);
