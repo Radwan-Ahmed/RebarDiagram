@@ -2,6 +2,14 @@ package com.example.rebardia;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +32,8 @@ public class eightmm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eightmm);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.black_ash)));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         stirrupContainer = findViewById(R.id.stirrupContainer);
         buttonAddStirrup = findViewById(R.id.buttonAddStirrup);
         buttonCalculate = findViewById(R.id.buttonCalculate);
@@ -59,7 +69,7 @@ public class eightmm extends AppCompatActivity {
         }
         stirrupContainer.removeAllViews();
         // Reset total weight result
-        textViewResult.setText("Total Weight of all stirrups: 0.00 kg");
+        textViewResult.setText("Let's Start Calculating Total Weight and Order Quantity.");
         // Reset the editTextsList
         editTextsList.clear();
         // Reset stirrupCount
@@ -80,6 +90,7 @@ public class eightmm extends AppCompatActivity {
         editTextLength.setHint("Length (in)");
         editTextLength.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editTextLength.setId(View.generateViewId()); // Set a unique ID
+        editTextLength.setTextColor(Color.BLACK);
         stirrupContainer.addView(editTextLength);
         editTextsList.add(editTextLength); // Add to the list
 
@@ -87,6 +98,7 @@ public class eightmm extends AppCompatActivity {
         editTextWidth.setHint("Width (in)");
         editTextWidth.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
         editTextWidth.setId(View.generateViewId()); // Set a unique ID
+        editTextLength.setTextColor(Color.BLACK);
         stirrupContainer.addView(editTextWidth);
         editTextsList.add(editTextWidth); // Add to the list
 
@@ -94,6 +106,7 @@ public class eightmm extends AppCompatActivity {
         editTextNumPieces.setHint("Number of Pieces");
         editTextNumPieces.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
         editTextNumPieces.setId(View.generateViewId()); // Set a unique ID
+        editTextLength.setTextColor(Color.BLACK);
         stirrupContainer.addView(editTextNumPieces);
         editTextsList.add(editTextNumPieces); // Add to the list
 
@@ -102,6 +115,7 @@ public class eightmm extends AppCompatActivity {
 
     private void calculateWeight() {
         final double[] totalWeight = {0.00};
+        final double[] roundedTotalWeight = {0.00};
         boolean allFieldsFilled = true;
 
         for (int i = 0; i < editTextsList.size(); i += 3) {
@@ -139,8 +153,46 @@ public class eightmm extends AppCompatActivity {
                 public void run() {
                     try {
                         if (textViewResult != null && textViewResult.getParent() != null) {
-                            String formattedWeight = String.format("%.2f", totalWeight[0]);
-                            textViewResult.setText("Total Weight of all stirrups: " + String.valueOf(formattedWeight) + " kg");
+
+                            String formattedTotalWeight = String.format("%.2f", totalWeight[0]);
+
+                            // Calculate the rounded result
+                            double roundedResult = Math.ceil(totalWeight[0] / 10) * 10;
+                            String formattedRoundedResult = String.format("%.2f", roundedResult);
+
+                            // Combine both total and rounded results into a single string
+                            String displayText = "Total Weight of all stirrups: " + formattedTotalWeight + " kg\n" +
+                                    "The order quantity will be: " + formattedRoundedResult + " kg";
+
+                            // Apply SpannableString to make only the digits bold and bigger
+                            SpannableString spannableString = new SpannableString(displayText);
+
+                            int startTotal = displayText.indexOf(formattedTotalWeight);
+                            int endTotal = startTotal + formattedTotalWeight.length();
+                            int startRounded = displayText.indexOf(formattedRoundedResult);
+                            int endRounded = startRounded + formattedRoundedResult.length();
+
+                            for (int i = 0; i < displayText.length(); i++) {
+                                char c = displayText.charAt(i);
+                                if (Character.isDigit(c)) {
+                                    if (i >= startTotal && i < endTotal) {
+                                        spannableString.setSpan(new StyleSpan(Typeface.BOLD), i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                        spannableString.setSpan(new AbsoluteSizeSpan(20, true), i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                        spannableString.setSpan(new ForegroundColorSpan(Color.BLACK), i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    } else if (i >= startRounded && i < endRounded) {
+                                        spannableString.setSpan(new StyleSpan(Typeface.BOLD), i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                        spannableString.setSpan(new AbsoluteSizeSpan(20, true), i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                        spannableString.setSpan(new ForegroundColorSpan(Color.BLACK), i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    }else {
+                                        spannableString.setSpan(new ForegroundColorSpan(Color.BLACK), i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                    }
+                                }else {
+                                    spannableString.setSpan(new ForegroundColorSpan(Color.BLACK), i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                }
+
+                            }
+                            textViewResult.setText(spannableString);
+
                         } else {
                             Log.e("StirrupApp", "textViewResult is null or not part of the layout");
                         }
